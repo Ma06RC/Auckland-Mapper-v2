@@ -1,0 +1,97 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
+{\fonttbl\f0\froman\fcharset0 TimesNewRomanPSMT;}
+{\colortbl;\red255\green255\blue255;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww25400\viewh13400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs28 \cf0 - My code can do the A* path finding and Articulation points both recursive and iterative way. I didn\'92t get to finish the one way road and all the challenge part.\
+\
+-Pseudocode for A*\
+	For all nodes:\
+		nodes.visited <\'97 false , nodes.pathFrom <\'97 null\
+	thePath <\'97 List of Segment \
+	enqueue <\'97- (start, null, 0 , start.heurisitc(goal))\
+	While fringe not empty:\
+		dequeue <\'97 (node, from, costSoFar, heuristic)\
+	\
+		if currentNode not visited:\
+			current.visited <\'97 true, current.pathFrom <\'97  from, current.cost <\'97 costSoFar\
+		if current node equals goalNode:\
+			break\
+		for each edge of current.getSegment:\
+			neighNode <\'97 null\
+			if currentNode equals edge.startNode:\
+				then neigh <\'97 edge.endNode\
+			if currentNode equals edge.endNode:\
+				then neigh <\'97 edge.startNode\
+			if not neigh visited :\
+				then costToNeigh <\'97 costSofar + edge.length\
+				estTotal <\'97\'97 costToNeigh + neigh.heurisitic.goal\
+				fringe.offer(neigh, node, costToNeigh, estTotal)\
+\
+- Path is the cost of the actual distance going from start node to the neighbour/goal node. Heuristic is the estimate of the path using the hypotenuse distance of the start node to the goal node.s\
+\pard\pardeftab720\sl300
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 -Pseudocode recursive Artpts\
+	def artPtsHelper(Node start):\
+		for each nodes:\
+		 	node.depth = Double.Positive_Infinity\
+			node.visit = false;\
+		articulationPoints \{\}\
+		numSubtree = 0\
+		start.Depth = 0\
+		for each neighbour of start:\
+			if neigh.depth = Double.Positive_Infinity:\
+				recArtPts(neigh, 1 , start)\
+				numSubtree++\
+			if numSubtree > 1:\
+				add start to articulationPoints\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+	def recArtPts(node, depth, from):\
+		node.depth = depth\
+		reachBack = depth\
+		\
+		for each node neighbours:\
+			if neigh == from continue;\
+			if neigh.depth < Double.Positive_Infinity:\
+				reachBack = Math.min(reachBack, neigh.depth)\
+			else:\
+				childReach = recArtPts(neigh, depth+1, node)\
+				if childReach >= depth:\
+					add node to articulation points\
+		return reachBack\
+\
+\
+-Pseudocode iterative artpts\
+		- I made a class for iterative articulation point, where it has a node, depth, reach back, parent and ArrayDequeue of children nodes\
+		\
+		def iterArtPts(firstNode, root):\
+			push (firstNode, 1 , new ArtPtsDFS(root, 0 , null) into a Stack called fringe\
+\
+			while fringe is not empty:\
+				elem = fringe.peek\
+				node = elem.node\
+\
+				if elem. children == null:\
+					node.depth = elem.depth\
+					elem.reachBack = elem.depth\
+					elem.setChildren = new ArrayDequeue\
+					for each node neighbour:\
+						if neigh !=  elem. parent.node\
+							add neigh to elem. children\
+				else	if elem. children is not empty:\
+					child = dequeue elem. children\
+					if child.depth < Double.Positive_Infinity:\
+						elem.reachBack = Math.min(elem.reachBack, child.depth)\
+					else:\
+						push(child,node.depth+1, elem) into the fringe\
+				else:\
+					if node != firstNode:\
+						if elem.reachBack >= elem.parent.depth\
+							add elem.parent.node to articulation points \
+					elem.parent.reachBack = Math.min(elem.parent.reachBack, elem.reachBack)\
+			   pop elem from stack\
+\
+- I tested my program by debugging using breakpoints and using Sys.out.printlns to check if the conditions are right and its not looping in an infinite loop because thats one of my problem doing A*\
+	Trail and error is also what i did to test my program and running my program multiple times to check if the outcome is consistent }
